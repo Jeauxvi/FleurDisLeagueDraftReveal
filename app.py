@@ -26,6 +26,8 @@ def generate_draft_order():
 def SevenToTwelve():
     random.shuffle(teams)
 
+    print('7 - 12')
+
     for j in topHalfPos:
         if teams:
             draftOrderTop.append((j, teams.pop(0)))
@@ -33,12 +35,17 @@ def SevenToTwelve():
 def FourToSix():
     random.shuffle(teams)
 
+    print('4 - 6')
+
+
     for i in fourToSix:
         if teams:
             draftOrderMid.append((i, teams.pop(0)))
 
 def TopThree():
     random.shuffle(teams)
+
+    print('Top 3')
 
     for i in topThree:
         if teams:

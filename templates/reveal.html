@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023 Fleur Dis League Draft Order</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        #startButton {
+            display: none;
+            margin: 20px auto;
+        }
+        #draftOrderContainer {
+            list-style-type: none;
+            font-size: 24px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Welcome 2023 Fleur Dis League Draft Order Reveal</h1>
+    <ul id="draftOrderContainer"></ul>
+    <script>
+        $(document).ready(function() {
+            revealNext({{ draftOrder | tojson }}, {{ draftOrder | length }} - 1);
+        });
+
+        function revealNext(orderList, index) {
+            if (index >= 0) {
+                var item = orderList[index];
+                $("#draftOrderContainer").append("<li style='display:none;'>" + item[1] + "</li>");
+                $("#draftOrderContainer li:last-child").fadeIn(1000).delay(3000).fadeOut(1000, function() {
+                    revealNext(orderList, index - 1);
+                });
+            } else {
+                $("#draftOrderContainer li").fadeIn(1000);
+            }
+        }
+    </script>
+</body>
+</html>

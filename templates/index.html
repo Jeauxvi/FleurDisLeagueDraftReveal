@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023 Fleur Dis League Draft Order</title>
+    <style>
+        body {
+            text-align: center;
+        }
+        #revealForm {
+            display: inline-block;
+            margin-top: 20px;
+        }
+        #startButton {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to the 2023 Fleur Dis League Draft Order Reveal</h1>
+    <form id="revealForm" action="/reveal" method="post">
+        <button id="startButton" type="submit">Start Reveal</button>
+    </form>
+    <ul id="draftOrderContainer" style="list-style-type: none;"></ul>
+    <script>
+        $(document).ready(function() {
+            $("#revealForm").submit(function(event) {
+                event.preventDefault();
+                $("#startButton").hide();
+                $.post("/reveal", function(data) {
+                    $.get("/get_draft_order", function(data) {
+                        $("#draftOrderContainer").empty();
+                        revealNext(data.draft_order, data.draft_order.length - 1); // Start from the last element
+                    });
+                });
+            });
+        });
+
+        function revealNext(orderList, index) {
+            if (index >= 0) {
+                var item = orderList[index];
+                $("#draftOrderContainer").append("<li style='display:none;'>" + item[0] + " - " + item[1] + "</li>");
+                $("#draftOrderContainer li:last-child").fadeIn(1000).delay(3000).fadeOut(1000, function() {
+                    revealNext(orderList, index - 1); // Decrement index
+                });
+            } else {
+                $("#draftOrderContainer li").fadeIn(1000);
+            }
+        }
+    </script>
+</body>
+</html>
